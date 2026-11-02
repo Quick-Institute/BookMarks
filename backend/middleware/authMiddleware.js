@@ -81,3 +81,40 @@ export const requireCustomer = async (req, res, next) => {
     });
   }
 };
+
+
+export const requireAdmin = async (req, res, next) => {
+  try {
+    const result = await pool.query(
+      `
+        SELECT account_id, role, is_active
+        FROM account
+        WHERE account_id = $1
+      `,
+      [req.accountId]
+    );
+
+    const account = result.rows[0];
+
+    if (!account || !account.is_active) {
+      return res.status(403).json({
+        message: "Your account is not active.",
+      });
+    }
+
+    if (account.role !== "admin") {
+      return res.status(403).json({
+        message: "Administrator access required.",
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.error("Admin authorization error:", error);
+
+    return res.status(500).json({
+      message: "Unable to verify administrator access.",
+    });
+  }
+};
+
