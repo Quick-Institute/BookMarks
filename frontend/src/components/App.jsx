@@ -17,6 +17,8 @@ import AdminProfile from "./AdminProfile.jsx";
 import AdminDashboard from './AdminDashboard.jsx'
 import AdminBooks from "./AdminBooks.jsx";
 import AdminBookDetails from "./AdminBookDetails.jsx";
+import AdminCustomers from "./AdminCustomers.jsx";
+import AdminCustomerDetails from "./AdminCustomerDetails.jsx";
 
 
 function App() {
@@ -42,7 +44,8 @@ function App() {
               <Route path="/admin/profile" element={<AdminProfile />} />
               <Route path="/admin/books" element={<AdminBooks />} />
               <Route path="/admin/books/:id" element={<AdminBookDetails />} />
-
+              <Route path="/admin/customers" element={<AdminCustomers />} />
+              <Route path="/admin/customers/:id" element={<AdminCustomerDetails />} />
             </Routes>
           </CartProvider>
         </BookProvider>
