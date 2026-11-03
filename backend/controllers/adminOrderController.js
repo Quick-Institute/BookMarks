@@ -1,4 +1,5 @@
 import { sendOrderStatusEmail } from "../services/emailService.js";
+
 import {
   findAllAdminOrders,
   findAdminOrderById,
@@ -114,10 +115,11 @@ export async function updateAdminOrderStatus(req, res) {
 
     const order = await findAdminOrderById(req.params.id);
 
-    // Send only after the database accepted the status transition.
-    // A failed email must not undo or misreport the successful status update.
+    // Send email only after the status is successfully updated.
     if (order) {
-      const recipientEmail = order.guest_email || order.account_email;
+      const recipientEmail =
+        order.guest_email || order.account_email;
+
       if (recipientEmail) {
         void sendOrderStatusEmail({
           order_id: order.order_id,
@@ -126,10 +128,15 @@ export async function updateAdminOrderStatus(req, res) {
           total: order.total,
           status: order.status,
         }).catch((mailError) => {
-          console.error(`Order ${order.order_id} status email failed:`, mailError);
+          console.error(
+            `Order ${order.order_id} status email failed:`,
+            mailError
+          );
         });
       } else {
-        console.warn(`Order ${req.params.id}: no recipient email for status notification.`);
+        console.warn(
+          `Order ${req.params.id}: no recipient email for status notification.`
+        );
       }
     }
 
@@ -140,6 +147,7 @@ export async function updateAdminOrderStatus(req, res) {
     });
   } catch (error) {
     console.error("Update admin order error:", error);
+
     return res.status(500).json({
       message: "Unable to update order status.",
     });
