@@ -72,6 +72,18 @@ export async function show(req, res) {
   }
 }
 
+export async function uploadCover(req, res) {
+  if (!validId(req.params.id)) {
+    return res.status(400).json({ message: "Invalid book ID." });
+  }
+  if (!req.file) {
+    return res.status(400).json({ message: "Select a JPG, PNG or WebP image." });
+  }
+  // A separate upload endpoint allows the existing JSON book-update API to remain unchanged.
+  const image = `${req.protocol}://${req.get("host")}/uploads/book-covers/${req.file.filename}`;
+  return res.json({ image });
+}
+
 export async function update(req, res) {
   if (!validId(req.params.id)) {
     return res.status(400).json({

@@ -1,4 +1,5 @@
 import express from "express";
+import path from "node:path";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -29,6 +30,9 @@ app.use(
 
 // Read JSON data sent from frontend
 app.use(express.json());
+
+// Serve locally uploaded book covers
+app.use("/uploads", express.static(path.resolve("uploads")));
 
 // Read authentication cookies
 app.use(cookieParser());

@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import {
   Search, UserRound, Menu, X, ArrowLeft,
-  Save, Trash2, Pencil,
+  Save, Trash2, Pencil, Upload,
 } from "lucide-react";
 import Footer from "./Footer";
 
@@ -33,6 +33,31 @@ export default function AdminBookDetails() {
   const [message, setMessage] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [navQuery, setNavQuery] = useState("");
+  const [coverFile, setCoverFile] = useState(null);
+  const [coverPreview, setCoverPreview] = useState("");
+
+  useEffect(() => {
+    if (!coverFile) {
+      setCoverPreview("");
+      return;
+    }
+    const url = URL.createObjectURL(coverFile);
+    setCoverPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [coverFile]);
+
+  function chooseCover(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 5 * 1024 * 1024) {
+      setError("Choose a JPG, PNG or WebP image no larger than 5 MB.");
+      event.target.value = "";
+      return;
+    }
+    setCoverFile(file);
+    setError("");
+  }
+
 
   useEffect(() => {
     const controller = new AbortController();
@@ -104,13 +129,25 @@ export default function AdminBookDetails() {
     setMessage("");
 
     try {
+      let updatedBook = { ...book };
+      if (coverFile) {
+        const form = new FormData();
+        form.append("cover", coverFile);
+        const uploadResponse = await fetch(`${API_URL}/api/admin/books/${id}/cover`, {
+          method: "POST", credentials: "include", body: form,
+        });
+        const uploadData = await uploadResponse.json().catch(() => ({}));
+        if (!uploadResponse.ok) throw new Error(uploadData.message || "Cover upload failed.");
+        updatedBook.image = uploadData.image;
+      }
+
       const response = await fetch(
         `${API_URL}/api/admin/books/${id}`,
         {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(book),
+          body: JSON.stringify(updatedBook),
         }
       );
 
@@ -122,6 +159,7 @@ export default function AdminBookDetails() {
 
       setBook(data.book);
       setOriginal(data.book);
+      setCoverFile(null);
       setEditing(false);
       setMessage("Book changes saved successfully.");
       navigate(`/admin/books/${id}`, { replace: true });
@@ -169,6 +207,7 @@ export default function AdminBookDetails() {
   }
 
   function cancelEdit() {
+    setCoverFile(null);
     setBook({ ...original });
     setEditing(false);
     setError("");
@@ -288,7 +327,7 @@ export default function AdminBookDetails() {
             <form className="admin-book-editor" onSubmit={save}>
               <div className="admin-book-cover-panel">
                 <img
-                  src={book.image || "/images/no-cover.jpg"}
+                  src={coverPreview || book.image || "/images/no-cover.jpg"}
                   alt={`${book.title} cover`}
                   onError={(event) => {
                     if (!event.currentTarget.src.endsWith("/images/no-cover.jpg")) {
@@ -297,6 +336,22 @@ export default function AdminBookDetails() {
                   }}
                 />
                 {field("Cover image URL", "image")}
+                {editing && (
+                  <label className="admin-book-field" style={{ marginTop: 14 }}>
+                    <span>Or upload a cover image</span>
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+                      <Upload size={18} /> Choose image (JPG, PNG, WebP)
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      disabled={saving}
+                      onChange={chooseCover}
+                      style={{ width: "100%", marginTop: 8 }}
+                    />
+                    {coverFile && <small>Selected: {coverFile.name} — click Save Changes to upload.</small>}
+                  </label>
+                )}
               </div>
 
               <div className="admin-book-fields">
