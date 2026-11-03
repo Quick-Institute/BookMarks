@@ -49,6 +49,9 @@ export default function AdminDashboard() {
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [restockBooks, setRestockBooks] = useState([]);
+  const [restockLoading, setRestockLoading] = useState(true);
+  const [restockError, setRestockError] = useState("");
 
   const navigate = useNavigate();
 
@@ -138,6 +141,45 @@ export default function AdminDashboard() {
     copies: Number(row.copies_sold),
   }));
 
+  useEffect(() => {
+    const controller = new AbortController();
+
+    async function fetchRestockBooks() {
+      try {
+        const response = await fetch(
+          `${API_URL}/api/admin/books/restock`,
+          {
+            credentials: "include",
+            signal: controller.signal,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Could not load restock books.");
+        }
+
+        const data = await response.json();
+
+        setRestockBooks(
+          (data.books || []).sort(
+            (a, b) =>
+              Number(a.stock_quantity) - Number(b.stock_quantity)
+          )
+        );
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          setRestockError(error.message);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setRestockLoading(false);
+        }
+      }
+    }
+
+    fetchRestockBooks();
+    return () => controller.abort();
+  }, []);
   return (
     <div className="admin-dashboard">
       <header className="site-header admin-site-header">
@@ -478,12 +520,44 @@ export default function AdminDashboard() {
               <span>Status</span>
             </div>
 
-            <div className="admin-restock-empty">
-              <h3>Restock Information</h3>
-              <p>
-                Books with low stock will be displayed here.
-              </p>
-            </div>
+            {restockLoading ? (
+              <div className="admin-restock-empty">
+                <p>Loading restock information...</p>
+              </div>
+            ) : restockError ? (
+              <div className="admin-restock-empty">
+                <p>{restockError}</p>
+              </div>
+            ) : restockBooks.length === 0 ? (
+              <div className="admin-restock-empty">
+                <h3>All Books Are Sufficiently Stocked</h3>
+                <p>No books currently need restocking.</p>
+              </div>
+            ) : (
+              restockBooks.map((book) => (
+                <Link
+                  key={book.id}
+                  to="/admin/restock"
+                  className="admin-restock-data-row"
+                >
+                  <span>{book.title}</span>
+                  <span>{book.stock_quantity}</span>
+                  <span>
+                    <span
+                      className={
+                        Number(book.stock_quantity) === 0
+                          ? "admin-stock-badge out"
+                          : "admin-stock-badge low"
+                      }
+                    >
+                      {Number(book.stock_quantity) === 0
+                        ? "Out of Stock"
+                        : "Low Stock"}
+                    </span>
+                  </span>
+                </Link>
+              ))
+            )}
           </div>
         </section>
       </main>

@@ -1,3 +1,4 @@
+import { sendOrderConfirmation } from "../services/emailService.js";
 import { bookCatalog } from "../data/bookCatalog.js";
 import { createOrder, findOrdersByAccountId, } from "../models/orderModel.js";
 import { findAccountById } from "../models/accountModel.js";
@@ -147,6 +148,26 @@ export const placeOrder = async (req, res) => {
       deliveryFee,
       total,
       items: validatedItems,
+    });
+
+    // The order transaction has completed successfully at this point.
+    // Email failures must never turn a successful checkout into a failed one.
+    void sendOrderConfirmation({
+      order_id: savedOrder.order_id,
+      email: cleanEmail,
+      recipient_name: recipientName,
+      delivery_address: address,
+      delivery_method: deliveryMethod,
+      subtotal,
+      delivery_fee: deliveryFee,
+      total,
+      items: validatedItems.map((item) => ({
+        book_title: item.title,
+        unit_price: item.price,
+        quantity: item.quantity,
+      })),
+    }).catch((mailError) => {
+      console.error(`Order ${savedOrder.order_id} confirmation email failed:`, mailError);
     });
 
     return res.status(201).json({

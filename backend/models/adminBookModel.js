@@ -1,3 +1,4 @@
+
 import pool from "../config/db.js";
 
 const bookSelect = `
@@ -9,6 +10,7 @@ const bookSelect = `
     b.price,
     b.description,
     b.stock_quantity,
+    b.restock_threshold,
     b.is_active,
     b.author_id,
     b.genre_id,
@@ -100,4 +102,45 @@ export async function deactivateAdminBook(id) {
   );
 
   return result.rowCount > 0;
+}
+
+// Books requiring restocking.
+export async function listRestockBooks() {
+  const result = await pool.query(`
+    SELECT
+      b.book_id AS id,
+      b.title,
+      b.isbn,
+      b.cover_url AS image,
+      b.stock_quantity,
+      b.restock_threshold,
+      a.name AS author
+    FROM book b
+    JOIN author a ON a.author_id = b.author_id
+    WHERE b.is_active = TRUE
+      AND b.stock_quantity <= COALESCE(b.restock_threshold, 5)
+    ORDER BY b.stock_quantity ASC, b.title ASC
+  `);
+
+  return result.rows;
+}
+
+// Add stock without overwriting the existing quantity.
+export async function addBookStock(id, quantity) {
+  const result = await pool.query(
+    `
+    UPDATE book
+    SET stock_quantity = stock_quantity + $2
+    WHERE book_id = $1
+      AND is_active = TRUE
+    RETURNING
+      book_id AS id,
+      title,
+      stock_quantity,
+      restock_threshold
+    `,
+    [id, quantity]
+  );
+
+  return result.rows[0] || null;
 }

@@ -19,6 +19,10 @@ import AdminBooks from "./AdminBooks.jsx";
 import AdminBookDetails from "./AdminBookDetails.jsx";
 import AdminCustomers from "./AdminCustomers.jsx";
 import AdminCustomerDetails from "./AdminCustomerDetails.jsx";
+import AdminOrders from "./AdminOrders.jsx";
+import AdminOrderDetails from "./AdminOrderDetails.jsx";
+import AdminRestockBooks from "./AdminRestockBooks.jsx";
+
 
 
 function App() {
@@ -46,6 +50,9 @@ function App() {
               <Route path="/admin/books/:id" element={<AdminBookDetails />} />
               <Route path="/admin/customers" element={<AdminCustomers />} />
               <Route path="/admin/customers/:id" element={<AdminCustomerDetails />} />
+              <Route path="/admin/orders" element={<AdminOrders />}/>
+              <Route path="/admin/orders/:id" element={<AdminOrderDetails />}/>
+              <Route path="/admin/restock" element={<AdminRestockBooks />}/>
             </Routes>
           </CartProvider>
         </BookProvider>

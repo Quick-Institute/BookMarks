@@ -11,6 +11,7 @@ import authorRoutes from "./routes/authorRoutes.js";
 import adminAnalyticsRoutes from "./routes/adminAnalyticsRoutes.js";
 import adminBookRoutes from "./routes/adminBookRoutes.js";
 import adminCustomerRoutes from "./routes/adminCustomerRoutes.js";
+import adminOrderRoutes from "./routes/adminOrderRoutes.js";
 
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.use("/api/authors", authorRoutes);
 app.use("/api/admin", adminAnalyticsRoutes);
 app.use("/api/admin/books", adminBookRoutes);
 app.use("/api/admin/customers", adminCustomerRoutes);
+app.use("/api/admin/orders", adminOrderRoutes);
 
 
 // Test route

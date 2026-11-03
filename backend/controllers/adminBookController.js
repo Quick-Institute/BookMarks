@@ -4,6 +4,8 @@ import {
   getBookOptions,
   saveAdminBook,
   deactivateAdminBook,
+  listRestockBooks,
+  addBookStock,
 } from "../models/adminBookModel.js";
 
 const validId = (value) =>
@@ -159,6 +161,57 @@ export async function remove(req, res) {
 
     return res.json({
       message: "Book marked inactive.",
+    });
+  } catch (error) {
+    return handleError(res, error);
+  }
+}
+
+// GET /api/admin/books/restock
+export async function restockIndex(req, res) {
+  try {
+    const books = await listRestockBooks();
+    return res.json({ books });
+  } catch (error) {
+    return handleError(res, error);
+  }
+}
+
+// PATCH /api/admin/books/:id/restock
+export async function restockBook(req, res) {
+  if (!validId(req.params.id)) {
+    return res.status(400).json({
+      message: "Invalid book ID.",
+    });
+  }
+
+  const quantity = req.body?.quantity;
+
+  if (
+    !Number.isSafeInteger(quantity) ||
+    quantity <= 0 ||
+    quantity > 100000
+  ) {
+    return res.status(400).json({
+      message: "Enter a valid positive whole-number quantity.",
+    });
+  }
+
+  try {
+    const book = await addBookStock(
+      req.params.id,
+      quantity
+    );
+
+    if (!book) {
+      return res.status(404).json({
+        message: "Active book not found.",
+      });
+    }
+
+    return res.json({
+      message: `Successfully added ${quantity} copies.`,
+      book,
     });
   } catch (error) {
     return handleError(res, error);
