@@ -40,10 +40,13 @@ function MyProfile() {
           signal: controller.signal,
         });
 
+        
         if (response.status === 401) {
+          setUser(null);
           navigate("/account", { replace: true });
           return;
         }
+
 
         const data = await response.json();
 
