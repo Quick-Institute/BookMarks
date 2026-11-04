@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useAuth } from "../context/AuthContext.jsx";
+import { API_URL } from "../config/api";
 
-const API_URL = "http://localhost:5000";
 
 function MyProfile() {
   const navigate = useNavigate();

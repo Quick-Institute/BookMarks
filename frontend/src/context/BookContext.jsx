@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api.js";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const BookContext = createContext(null);
@@ -12,7 +13,7 @@ export function BookProvider({ children }) {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/books");
+      const response = await fetch(`${API_URL}/api/books`);
 
       if (!response.ok) {
         throw new Error("Failed to load books");

@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api.js";
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -94,7 +95,7 @@ function Checkout() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/orders/guest",
+        `${API_URL}/api/orders/guest`,
         {
           method: "POST",
           headers: {

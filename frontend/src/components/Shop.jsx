@@ -4,6 +4,8 @@ import Navbar from "./Navbar.jsx";
 import BookSection from "./BookSection.jsx";
 import Footer from "./Footer.jsx";
 import { useBooks } from "../context/BookContext.jsx";
+import { API_URL } from "../config/api";
+
 
 const filters = ["All", "Fiction", "Fantasy", "Dystopian", "Self Help"];
 
@@ -36,7 +38,7 @@ export default function Shop() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/authors/search?q=${encodeURIComponent(searchTerm)}`,
+          `${API_URL}/api/authors/search?q=${encodeURIComponent(searchTerm)}`,
           { signal: controller.signal }
         );
 

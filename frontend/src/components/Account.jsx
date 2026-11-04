@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { API_URL } from "../config/api";
 
 function Account() {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ function Account() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           method: "POST",
           headers: {
@@ -90,7 +91,7 @@ function Account() {
   const handleRegister = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register",
+      const response = await fetch(`${API_URL}/api/auth/register`,
 
         {
           method: "POST",

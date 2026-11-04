@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api.js";
 
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -10,7 +11,7 @@ export function AuthProvider({ children }) {
   const refreshUser = async () => { //Reloads the account from the backend
     try {
       const response = await fetch(
-        "http://localhost:5000/api/account/me",
+        `${API_URL}/api/account/me`,
         { credentials: "include" }
       );
 

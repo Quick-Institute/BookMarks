@@ -1,8 +1,8 @@
-
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { API_URL } from "../config/api";
 
 function AuthorDetails() {
   const { id } = useParams();
@@ -23,7 +23,7 @@ function AuthorDetails() {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/api/authors/${id}`,
+          `${API_URL}/api/authors/${id}`,
           { signal: controller.signal }
         );
 
