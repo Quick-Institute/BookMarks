@@ -1,6 +1,7 @@
+import AdminNavbar from "./AdminNavbar.jsx";
 
 import { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   UserRound,
   ShieldCheck,
@@ -10,8 +11,6 @@ import {
   Package,
   ClipboardList,
   LogOut,
-  Menu,
-  X,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -33,7 +32,6 @@ export default function AdminProfile() {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -222,72 +220,7 @@ export default function AdminProfile() {
 
   return (
     <div className="admin-dashboard admin-profile-page">
-      <header className="site-header admin-site-header">
-        <nav className="navbar">
-          <Link
-            to="/admin-dashboard"
-            className="nav-logo"
-          >
-            BOOK<span>MARKS</span>
-          </Link>
-
-          <div
-            className={`nav-links ${menuOpen ? "open" : ""}`}
-          >
-            <NavLink
-              to="/admin/books"
-              onClick={() => setMenuOpen(false)}
-            >
-              Books
-            </NavLink>
-
-            <NavLink
-              to="/admin/customers"
-              onClick={() => setMenuOpen(false)}
-            >
-              Customers
-            </NavLink>
-
-            <NavLink
-              to="/admin/restock"
-              onClick={() => setMenuOpen(false)}
-            >
-              Restock Books
-            </NavLink>
-
-            <NavLink
-              to="/admin/orders"
-              onClick={() => setMenuOpen(false)}
-            >
-              Orders
-            </NavLink>
-          </div>
-
-          <div className="nav-icons">
-            <Link
-              to="/admin/profile"
-              className="profile-link"
-            >
-              <UserRound size={29} />
-              <span>My Profile</span>
-            </Link>
-          </div>
-
-          <button
-            type="button"
-            className="hamburger"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle navigation menu"
-            aria-expanded={menuOpen}
-          >
-            {menuOpen ? (
-              <X size={26} />
-            ) : (
-              <Menu size={26} />
-            )}
-          </button>
-        </nav>
-      </header>
+      <AdminNavbar />
 
       <main className="admin-main">
         <div className="admin-page-heading">
