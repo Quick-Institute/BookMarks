@@ -1,24 +1,22 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { API_URL } from "../config/api";
 
 function Account() {
   const navigate = useNavigate();
-  
   const { user, setUser, loading } = useAuth();
 
-  useEffect(() => { //This handles someone manually opening `/account` while already logged in.
+  useEffect(() => {
     if (!loading && user) {
       navigate(
         user.role === "admin" ? "/admin-dashboard" : "/my-profile",
         { replace: true }
       );
     }
-  }, [user, loading, navigate]); //means the effect is reconsidered when one of these values changes.
-
+  }, [user, loading, navigate]);
 
   const [login, setLogin] = useState({
     email: "",
@@ -26,7 +24,7 @@ function Account() {
   });
 
   const [register, setRegister] = useState({
-    full_name:"",
+    full_name: "",
     email: "",
     password: "",
   });
@@ -49,7 +47,6 @@ function Account() {
     }));
   };
 
-  // Frontend-only login
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -72,37 +69,38 @@ function Account() {
         alert(data.message);
         return;
       }
+
       setUser(data.account);
 
-      // Redirect according to account role
       if (data.account.role === "admin") {
         navigate("/admin-dashboard", { replace: true });
       } else {
         navigate("/my-profile", { replace: true });
       }
-
     } catch (error) {
       console.error("Login error:", error);
       alert("Unable to connect to the backend.");
     }
-};
+  };
 
-  // Frontend-only registration
   const handleRegister = async (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch(`${API_URL}/api/auth/register`,
 
+    try {
+      const response = await fetch(
+        `${API_URL}/api/auth/register`,
         {
           method: "POST",
-          headers: {"Content-Type": "application/json"},
+          headers: {
+            "Content-Type": "application/json",
+          },
           credentials: "include",
-          body: JSON.stringify(register)
+          body: JSON.stringify(register),
         }
       );
+
       const data = await response.json();
-      
-      
+
       if (!response.ok) {
         alert(data.message);
         return;
@@ -110,16 +108,12 @@ function Account() {
 
       setUser(data.account);
       navigate("/my-profile", { replace: true });
-
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Registration error:", error);
     }
-
   };
 
-
-  if (loading || user) { //This prevents the login and registration forms from appearing while authentication is loading or while an authenticated user is being redirected.
+  if (loading || user) {
     return null;
   }
 
@@ -129,7 +123,6 @@ function Account() {
 
       <main className="account-page">
         <div className="account-container">
-
           <h1 className="account-title">Account</h1>
 
           <div className="account-layout">
@@ -176,6 +169,13 @@ function Account() {
                   />
                 </div>
 
+                {/* FORGOT PASSWORD LINK */}
+                <div className="forgot-password-link">
+                  <Link to="/forgot-password">
+                    Forgot Password?
+                  </Link>
+                </div>
+
                 <button
                   type="submit"
                   className="account-submit-btn"
@@ -197,17 +197,20 @@ function Account() {
                   <label htmlFor="register-name">
                     Full Name *
                   </label>
-                  <input id="register-name" 
-                         type="text" 
-                         name="full_name" 
-                         value={register.full_name} 
-                         onChange={handleRegisterChange} 
-                         placeholder="Enter your full name" 
-                         autoComplete="name"
-                         maxLength= {150}
-                         required />
-                    
+
+                  <input
+                    id="register-name"
+                    type="text"
+                    name="full_name"
+                    value={register.full_name}
+                    onChange={handleRegisterChange}
+                    placeholder="Enter your full name"
+                    autoComplete="name"
+                    maxLength={150}
+                    required
+                  />
                 </div>
+
                 <div className="account-field">
                   <label htmlFor="register-email">
                     Email address *

@@ -174,3 +174,26 @@ export async function sendOrderStatusEmail(order) {
 export async function verifyEmailConnection() {
   return transporter.verify();
 }
+
+export async function sendPasswordResetEmail({ email, fullName, resetUrl }) {
+  const html = emailLayout(`
+    <h2>Reset your password</h2>
+    <p>Hello ${escapeHtml(fullName)},</p>
+    <p>We received a request to reset your BookMarks password.</p>
+    <p><a href="${escapeHtml(resetUrl)}" style="display:inline-block;background:#522D60;color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none">Reset password</a></p>
+    <p>This link expires in 15 minutes and can be used only once.</p>
+    <p>If you did not request this, you can ignore this email.</p>
+  `);
+  return transporter.sendMail({
+    from: { name: process.env.MAIL_FROM_NAME || 'BookMarks', address: process.env.GMAIL_USER },
+    to: email, subject: 'BookMarks - Reset your password', html,
+  });
+}
+
+export async function sendPasswordChangedEmail({ email, fullName }) {
+  return transporter.sendMail({
+    from: { name: process.env.MAIL_FROM_NAME || 'BookMarks', address: process.env.GMAIL_USER },
+    to: email, subject: 'BookMarks - Your password was changed',
+    html: emailLayout(`<h2>Password changed</h2><p>Hello ${escapeHtml(fullName)},</p><p>Your BookMarks password was successfully changed. If this was not you, contact support immediately.</p>`),
+  });
+}

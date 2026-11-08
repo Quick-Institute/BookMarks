@@ -7559,3 +7559,24 @@ html {
     font-size: 12px;
   }
 }
+
+
+/* Forgot Password Link */
+
+.forgot-password-link {
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 15px;
+}
+
+.forgot-password-link a {
+  color: var(--primary, #522D60);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.forgot-password-link a:hover {
+  color: var(--primary-hover, #80426E);
+  text-decoration: underline;
+}

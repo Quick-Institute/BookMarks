@@ -22,7 +22,8 @@ import AdminCustomerDetails from "./AdminCustomerDetails.jsx";
 import AdminOrders from "./AdminOrders.jsx";
 import AdminOrderDetails from "./AdminOrderDetails.jsx";
 import AdminRestockBooks from "./AdminRestockBooks.jsx";
-
+import ForgotPassword from "./ForgotPassword.jsx";
+import ResetPassword from "./ResetPassword.jsx";
 
 
 function App() {
@@ -53,6 +54,8 @@ function App() {
               <Route path="/admin/orders" element={<AdminOrders />}/>
               <Route path="/admin/orders/:id" element={<AdminOrderDetails />}/>
               <Route path="/admin/restock" element={<AdminRestockBooks />}/>
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
             </Routes>
           </CartProvider>
         </BookProvider>
