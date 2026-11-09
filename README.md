@@ -48,23 +48,6 @@ BookMarks is a full-stack online bookstore application designed to provide a sea
 
 ![Shopping Cart](screenshots/cart.png)
 
-### Administrator Interface
-
-**Admin Dashboard**
-
-![Admin Dashboard](screenshots/admin-dashboard.png)
-
-**Book Management**
-
-![Book Management](screenshots/manage-books.png)
-
-**Author Management**
-
-![Author Management](screenshots/manage-authors.png)
-
-**Order Management**
-
-![Order Management](screenshots/manage-orders.png)
 
 ## Installation
 
