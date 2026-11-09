@@ -88,8 +88,6 @@ npm run dev
 
 Open `http://localhost:5173` to access the application.
 
-*Note: A configured PostgreSQL database with the required application schema is needed.*
-
 ## Project Structure
 
 ```text
