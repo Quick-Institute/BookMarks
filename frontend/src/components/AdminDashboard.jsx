@@ -196,8 +196,6 @@ export default function AdminDashboard() {
               Books
             </NavLink>
 
-            <NavLink to="/admin/authors" onClick={() => setIsOpen(false)}>Authors</NavLink>
-
             <NavLink
               to="/admin/customers"
               onClick={() => setIsOpen(false)}
@@ -560,6 +558,48 @@ export default function AdminDashboard() {
                 </Link>
               ))
             )}
+          </div>
+        </section>
+
+        <section className="admin-section" aria-label="Author management">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "18px",
+              padding: "24px",
+              background: "#ffffff",
+              border: "1px solid #e0e8f0",
+              borderRadius: "12px",
+            }}
+          >
+            <div>
+              <h2 style={{ margin: "0 0 6px", color: "#14213d" }}>
+                Manage Authors
+              </h2>
+              <p style={{ margin: 0, color: "#64748b" }}>
+                Add authors, update biographies, and manage author photographs.
+              </p>
+            </div>
+            <Link
+              to="/admin/authors"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "12px 20px",
+                background: "#14213d",
+                color: "#ffffff",
+                borderRadius: "8px",
+                fontWeight: 600,
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Manage Authors →
+            </Link>
           </div>
         </section>
       </main>

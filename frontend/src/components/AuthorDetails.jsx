@@ -4,6 +4,12 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { API_URL } from "../config/api";
 
+const getAuthorPhotoUrl = (url) => {
+  if (!url) return "/images/authors/default-author.png";
+  if (url.startsWith("/uploads/")) return `${API_URL.replace(/\/$/, "")}${url}`;
+  return url;
+};
+
 function AuthorDetails() {
   const { id } = useParams();
 
@@ -80,10 +86,7 @@ function AuthorDetails() {
               <section className="author-editorial-hero">
                 <div className="author-editorial-photo">
                   <img
-                    src={
-                      author.image_url ||
-                      "/images/authors/default-author.png"
-                    }
+                    src={getAuthorPhotoUrl(author.image_url)}
                     alt={author.name}
                     onError={(event) => {
                       event.currentTarget.onerror = null;
