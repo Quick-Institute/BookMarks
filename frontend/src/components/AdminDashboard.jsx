@@ -196,6 +196,8 @@ export default function AdminDashboard() {
               Books
             </NavLink>
 
+            <NavLink to="/admin/authors" onClick={() => setIsOpen(false)}>Authors</NavLink>
+
             <NavLink
               to="/admin/customers"
               onClick={() => setIsOpen(false)}

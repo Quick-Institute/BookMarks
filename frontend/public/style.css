@@ -7580,3 +7580,78 @@ html {
   color: var(--primary-hover, #80426E);
   text-decoration: underline;
 }
+
+/* ==========================================
+   ADMIN DASHBOARD — MANAGE AUTHORS SHORTCUT
+   ========================================== */
+
+.admin-author-shortcut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 32px;
+  margin: 30px 0;
+
+  background: #ffffff;
+  border: 1px solid #e0e8f0;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(20, 33, 61, 0.04);
+}
+
+.admin-author-shortcut h3 {
+  margin: 0 0 10px;
+  color: #14213d;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.admin-author-shortcut p {
+  margin: 0;
+  color: #70859a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.admin-author-shortcut-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  padding: 13px 22px;
+  background: #522d60;
+  color: #ffffff;
+
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.admin-author-shortcut-btn:hover {
+  background: #80426e;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Mobile responsive */
+
+@media (max-width: 600px) {
+  .admin-author-shortcut {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 22px;
+    gap: 20px;
+  }
+
+  .admin-author-shortcut h3 {
+    font-size: 18px;
+  }
+
+  .admin-author-shortcut-btn {
+    width: 100%;
+  }
+}

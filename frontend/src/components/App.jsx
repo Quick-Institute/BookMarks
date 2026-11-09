@@ -13,6 +13,7 @@ import OrderSuccess from "./OrderSuccess.jsx";
 import { AuthProvider } from "../context/AuthContext.jsx";
 import { BookProvider } from "../context/BookContext.jsx";
 import AuthorDetails from "./AuthorDetails.jsx";
+import AdminAuthors from "./AdminAuthors.jsx";
 import AdminProfile from "./AdminProfile.jsx";
 import AdminDashboard from './AdminDashboard.jsx'
 import AdminBooks from "./AdminBooks.jsx";
@@ -56,6 +57,7 @@ function App() {
               <Route path="/admin/restock" element={<AdminRestockBooks />}/>
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/admin/authors" element={<AdminAuthors />} />
             </Routes>
           </CartProvider>
         </BookProvider>
