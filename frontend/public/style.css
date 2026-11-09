@@ -7655,3 +7655,391 @@ html {
     width: 100%;
   }
 }
+
+
+/* ==========================================
+   BOOKMARKS — ADMIN MANAGE AUTHORS
+   ========================================== */
+
+.admin-authors-page .admin-main {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 42px 5% 70px;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.admin-authors-page .ma-panel {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e0e8f0;
+  border-radius: 12px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 18px rgba(20, 33, 61, 0.045);
+}
+
+.admin-authors-page .ma-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+
+.admin-authors-page .ma-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  max-width: 480px;
+  min-width: 220px;
+  padding: 13px 16px;
+  background: #faf8fb;
+  border: 1px solid #d4c3d8;
+  border-radius: 8px;
+  color: #65546b;
+}
+
+.admin-authors-page .ma-search input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2d2032;
+  font: inherit;
+  font-size: 14px;
+}
+
+.admin-authors-page .ma-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 22px;
+  background: #522d60;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.admin-authors-page .ma-primary:hover {
+  background: #80426e;
+  transform: translateY(-1px);
+}
+
+.admin-authors-page .ma-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-authors-page .ma-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+  padding: 18px 8px;
+  border-bottom: 1px solid #eee8f0;
+}
+
+.admin-authors-page .ma-item:last-child {
+  border-bottom: none;
+}
+
+.admin-authors-page .ma-item img {
+  display: block;
+  width: 68px;
+  height: 78px;
+  min-width: 68px;
+  max-width: 68px;
+  max-height: 78px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f4eff5;
+}
+
+.admin-authors-page .ma-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.admin-authors-page .ma-info strong {
+  color: #14213d;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.admin-authors-page .ma-info span {
+  color: #70859a;
+  font-size: 13px;
+}
+
+.admin-authors-page .ma-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-authors-page .ma-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 15px;
+  border: 1px solid #ded7e2;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #522d60;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-authors-page .ma-actions button:hover:not(:disabled) {
+  background: #f8f2fa;
+}
+
+.admin-authors-page .ma-actions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.admin-authors-page .ma-error,
+.admin-authors-page .ma-success {
+  padding: 13px 16px;
+  margin: 14px 0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.admin-authors-page .ma-error {
+  background: #fff1f1;
+  color: #a12323;
+}
+
+.admin-authors-page .ma-success {
+  background: #eef9f1;
+  color: #216a43;
+}
+
+/* ADD / EDIT AUTHOR MODAL */
+
+.admin-authors-page .ma-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(20, 15, 27, 0.65);
+}
+
+.admin-authors-page .ma-dialog {
+  width: min(100%, 650px);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+}
+
+.admin-authors-page .ma-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.admin-authors-page .ma-dialog-head h2 {
+  margin: 0;
+  color: #14213d;
+  font-size: 25px;
+}
+
+.admin-authors-page .ma-dialog-head button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #65546b;
+  cursor: pointer;
+}
+
+.admin-authors-page .ma-dialog form > label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 20px;
+  color: #2d2032;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-authors-page .ma-dialog input:not([type="file"]),
+.admin-authors-page .ma-dialog textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 1px solid #d4c3d8;
+  border-radius: 8px;
+  outline: none;
+  background: #ffffff;
+  color: #2d2032;
+  font: inherit;
+  font-size: 14px;
+}
+
+.admin-authors-page .ma-dialog textarea {
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.admin-authors-page .ma-dialog input:focus,
+.admin-authors-page .ma-dialog textarea:focus {
+  border-color: #80426e;
+  box-shadow: 0 0 0 3px rgba(128, 66, 110, 0.1);
+}
+
+.admin-authors-page .ma-dialog input[type="file"] {
+  padding: 13px;
+  border: 1px dashed #d4c3d8;
+  border-radius: 8px;
+  background: #faf8fb;
+  font-size: 13px;
+}
+
+.admin-authors-page .ma-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.admin-authors-page .ma-dialog-actions > button:first-child {
+  padding: 12px 20px;
+  border: 1px solid #d4c3d8;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #65546b;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+  .admin-authors-page .admin-main {
+    padding: 28px 4% 50px;
+  }
+
+  .admin-authors-page .ma-panel {
+    padding: 20px 16px;
+  }
+
+  .admin-authors-page .ma-search {
+    max-width: none;
+  }
+
+  .admin-authors-page .ma-item {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .admin-authors-page .ma-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .admin-authors-page .ma-dialog {
+    padding: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-authors-page .ma-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-authors-page .ma-primary {
+    width: 100%;
+  }
+
+  .admin-authors-page .ma-item img {
+    width: 56px;
+    height: 66px;
+    min-width: 56px;
+  }
+
+  .admin-authors-page .ma-dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  .admin-authors-page .ma-dialog-actions button {
+    width: 100%;
+  }
+}
+
+/* ==========================================
+   MANAGE AUTHORS — MATCH ADMIN BLUE THEME
+   ========================================== */
+
+.admin-authors-page .ma-primary,
+.admin-authors-page .admin-author-shortcut-btn {
+  background: #14213d;
+  color: #ffffff;
+}
+
+.admin-authors-page .ma-primary:hover,
+.admin-authors-page .admin-author-shortcut-btn:hover {
+  background: #1f4e79;
+  color: #ffffff;
+}
+
+.admin-authors-page .ma-search {
+  background: #f7f9fc;
+  border-color: #d7e1eb;
+  color: #70859a;
+}
+
+.admin-authors-page .ma-search:focus-within {
+  border-color: #1f4e79;
+  box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.1);
+}
+
+.admin-authors-page .ma-actions button {
+  color: #1f4e79;
+  border-color: #d7e1eb;
+}
+
+.admin-authors-page .ma-actions button:hover:not(:disabled) {
+  background: #eef4fa;
+}
+
+.admin-authors-page .ma-dialog input:focus,
+.admin-authors-page .ma-dialog textarea:focus {
+  border-color: #1f4e79;
+  box-shadow: 0 0 0 3px rgba(31, 78, 121, 0.1);
+}
+
+.admin-authors-page .ma-dialog input[type="file"] {
+  background: #f7f9fc;
+  border-color: #d7e1eb;
+}
